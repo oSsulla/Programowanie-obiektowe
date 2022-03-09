@@ -17,7 +17,7 @@ namespace lab_1
             string name1 = "adam";
             string v = name.Substring(0, 2);
             Console.WriteLine(name == name1);
-            Money money = Money.Of(10, Currency.PLN);
+            Money money = Money.Of(10m, Currency.PLN);
             //money * 5 -> *(money, 5)
             Money result = 5 * money;
             Console.WriteLine(result.value);
@@ -26,6 +26,42 @@ namespace lab_1
             Console.WriteLine(sum < money);
             Console.WriteLine(money == Money.Of(10, Currency.PLN));
             Console.WriteLine(money != Money.Of(10, Currency.PLN));
+            long a = 10L;
+            a = 10000000000000000L;
+            int b = 5;
+            a = b;
+            b = (int)a;
+
+            //operatory rzutowania
+            decimal amount = money;
+            double cost = (double)money;
+            float price = (float)money;
+            Console.WriteLine(amount);
+            Console.WriteLine(cost);
+            Console.WriteLine(price);
+
+            //ToString
+            Console.WriteLine("ToString");
+            Console.WriteLine(money.ToString());
+
+            money.Equals(cost);
+            Console.WriteLine("SORT");
+
+            Money[] pricies =
+            {
+                Money.Of(11, Currency.PLN),
+                Money.Of(12, Currency.PLN),
+                Money.Of(16, Currency.USD),
+                Money.Of(17, Currency.USD),
+                Money.Of(11, Currency.USD),
+                Money.Of(12, Currency.EUR)
+            };
+
+            Array.Sort(pricies);
+            foreach (var m in pricies)
+            {
+                Console.WriteLine(m.ToString());
+            }
         }
     }
 }
@@ -71,13 +107,18 @@ class Person
         }
     }
 
+    public override string ToString()
+    {
+        return _name;
+    }
+
     public enum Currency
     {
         PLN = 1,
         USD = 2,
         EUR = 3
     }
-    public class Money
+    public class Money: IEquatable<Money>, IComparable<Money>
     {
         private readonly decimal _value;
         private readonly Currency _Currency;
@@ -146,6 +187,53 @@ class Person
         public static bool operator !=(Money b, Money a)
         {
             return !(a == b);
+        }
+
+        public static implicit operator decimal(Money money)
+        {
+            return money.value;
+        }
+        public static explicit operator double(Money money)
+        {
+            return (double)money.value;
+        }
+        public static explicit operator float(Money money)
+        {
+            return (float)money.value;
+        }
+
+        public override string ToString()
+        {
+            return $"value:{_value}, Currency{_Currency}";
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Money money &&
+                   _value == money._value &&
+                   _Currency == money._Currency;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(_value, _Currency);
+        }
+
+        public bool Equals(Money other)
+        {
+            return _value == other._value &&
+                   _Currency == other._Currency;
+        }
+
+        public int CompareTo(Money other)
+        {
+            int result = _Currency.CompareTo(other._Currency);
+            if (result == 0){
+                result - _value.CompareTo(other._value);
+            }else
+            { 
+                return result;
+            }
         }
     }
 }
