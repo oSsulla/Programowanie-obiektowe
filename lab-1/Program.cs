@@ -1,4 +1,5 @@
 ﻿using System;
+using static Person;
 
 namespace lab_1
 {
@@ -6,7 +7,145 @@ namespace lab_1
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Person person = Person.Of("Aleks");
+            Console.WriteLine(person.Name);
+            DateTime dateTime = DateTime.Parse("03-02-2022");
+            Console.WriteLine(dateTime);
+            DateTime newDate = dateTime.AddDays(2);
+            Console.WriteLine(newDate + " " + dateTime);
+            string name = "adam";
+            string name1 = "adam";
+            string v = name.Substring(0, 2);
+            Console.WriteLine(name == name1);
+            Money money = Money.Of(10, Currency.PLN);
+            //money * 5 -> *(money, 5)
+            Money result = 5 * money;
+            Console.WriteLine(result.value);
+            Money sum = money + result;
+            Console.WriteLine(sum.value);
+            Console.WriteLine(sum < money);
+            Console.WriteLine(money == Money.Of(10, Currency.PLN));
+            Console.WriteLine(money != Money.Of(10, Currency.PLN));
+        }
+    }
+}
+
+
+
+class Person
+{
+    private string _name;
+    private Person(string name)
+    {
+        _name = name;
+    }
+
+    public static Person Of(string name)
+    {
+        if (name != null && name.Length >= 2)
+        {
+            return new Person(name);
+        }
+        else
+        {
+            throw new ArgumentOutOfRangeException("Imię zbyt krótkie!");
+
+        }
+    }
+    public string Name
+    {
+        get
+        {
+            return _name;
+        }
+        set
+        {
+            if (value != null && value.Length >= 2)
+            {
+                _name = value;
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException("Imię zbyt krótkie");
+            }
+        }
+    }
+
+    public enum Currency
+    {
+        PLN = 1,
+        USD = 2,
+        EUR = 3
+    }
+    public class Money
+    {
+        private readonly decimal _value;
+        private readonly Currency _Currency;
+        private Money(decimal value, Currency currency)
+        {
+            _value = value;
+            _Currency = currency;
+        }
+
+        public decimal value
+        {
+            get
+            {
+                return _value;
+            }
+        }
+        public Currency Currency
+        {
+            get
+            {
+                return _Currency;
+            }
+        }
+        public static Money? Of(decimal value, Currency currency)
+        {
+            return value < 0 ? null : new Money(value, currency);
+        }
+
+        public static Money operator *(Money a, decimal b)
+        {
+            return Money.Of(a._value * b, a._Currency);
+        }
+
+        public static Money operator *(decimal b, Money a)
+        {
+            return Money.Of(a._value * b, a._Currency);
+        }
+        public static Money operator +(Money b, Money a)
+        {
+            if (a.Currency != b.Currency)
+            {
+                throw new ArgumentException("Different currencies!");
+            }
+            return Money.Of(a._value * b._value, a._Currency);
+        }
+        public static bool operator >(Money b, Money a)
+        {
+            if (a.Currency != b.Currency)
+            {
+                throw new ArgumentException("Different currencies!");
+            }
+            return a.value > b.value;
+        }
+        public static bool operator <(Money b, Money a)
+        {
+            if (a.Currency != b.Currency)
+            {
+                throw new ArgumentException("Different currencies!");
+            }
+            return a.value < b.value;
+        }
+        public static bool operator ==(Money b, Money a)
+        {
+            return a.value == b.value && a.Currency == b.Currency;
+        }
+        public static bool operator !=(Money b, Money a)
+        {
+            return !(a == b);
         }
     }
 }
