@@ -6,14 +6,16 @@
         xmlns:local="clr-namespace:Projekt1"
         mc:Ignorable="d"
         Title="MainWindow"  Height="435" Width="510" Background="#181735"
-        WindowStyle="None"
         ResizeMode="NoResize">
 
 
     <Grid>
-        <Grid Background="#0F0F2D" Width="510" Height="25" VerticalAlignment="Top"/>
-        <TextBlock Text="Dziennik Ocen" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20,-5,0,0" FontFamily="Gabriola" FontSize="22"/>
-        <ListView Name="ItemList" Margin="5,40,5,0" Height="180" VerticalAlignment="Top" SelectionChanged="ItemList_SelectionChanged" Background="#FF2E2D5B" BorderBrush="{x:Null}" Foreground="#FF2E2D5B">
+        <Grid.Background>
+            <ImageBrush Stretch="UniformToFill" TileMode="None" ImageSource="/tlo2.jpg"/>
+        </Grid.Background>
+        <Grid Background="#0F0F2D" Width="510" Height="35" VerticalAlignment="Top"/>
+        <TextBlock Text="Dziennik Ocen" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20,-5,0,0" FontFamily="Gabriola" FontSize="30"/>
+        <ListView Name="ItemList" Margin="5,40,5,0" Height="180" VerticalAlignment="Top" SelectionChanged="ItemList_SelectionChanged" Background="#FF2E2D5B" BorderBrush="#FF0C0029" Foreground="#FFB5C7DC">
             <ListView.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Clear" Click="MenuItem_Click"/>
@@ -33,13 +35,13 @@
 
         <CheckBox x:Name="EnableCheckBox" Content="Edit"  HorizontalAlignment="Left" Margin="10,230,0,0" VerticalAlignment="Top" Foreground="#FFB5C7DC"/>
 
-        <Grid x:Name="EditGrid" IsEnabled="{Binding ElementName=EnableCheckBox,Path=IsChecked}" Margin="3,260,0,0"  HorizontalAlignment="Stretch" VerticalAlignment="Top">
+        <Grid x:Name="EditGrid" IsEnabled="{Binding ElementName=EnableCheckBox,Path=IsChecked}" Margin="3,280,0,0"  HorizontalAlignment="Stretch" VerticalAlignment="Top">
             <Label Content="Imie" HorizontalAlignment="Left" Margin="3,0,0,0"   VerticalAlignment="Top" Foreground="#FFB5C7DC"/>
             <Label Content="Nazwisko" HorizontalAlignment="Left" Margin="3,20,0,0"   VerticalAlignment="Top" Foreground="#FFB5C7DC"/>
             <Label Content="Ocena" HorizontalAlignment="Left" Margin="3,40,0,0"   VerticalAlignment="Top" Foreground="#FFB5C7DC"/>
-            <TextBox Name="NameTextBox" Text="{Binding ElementName=ItemList ,Path=SelectedItem.Name,Mode=OneWay}" HorizontalAlignment="Left"  Margin="70,5,0,0" Width="150" Height="17" VerticalAlignment="Top" Background="#FF2E2D5B" BorderBrush="{x:Null}"/>
-            <TextBox Name="SurnameTextBox" Text="{Binding ElementName=ItemList ,Path=SelectedItem.Surname,Mode=OneWay}" HorizontalAlignment="Left"  Margin="70,25,0,0" Width="150" Height="17" VerticalAlignment="Top" Background="#FF2E2D5B" BorderBrush="{x:Null}"/>
-            <TextBox Name="MarkTextBox" Text="{Binding ElementName=ItemList ,Path=SelectedItem.Mark,Mode=OneWay}" HorizontalAlignment="Left"  Margin="70,45,0,0" Width="150" Height="17" VerticalAlignment="Top" Background="#FF2E2D5B" BorderBrush="{x:Null}"/>
+            <TextBox Name="NameTextBox" Text="{Binding ElementName=ItemList ,Path=SelectedItem.Name,Mode=OneWay}" HorizontalAlignment="Left"  Margin="70,5,0,0" Width="150" Height="17" VerticalAlignment="Top" Background="#FF2E2D5B" BorderBrush="{x:Null}" Foreground="#FFB5C7DC"/>
+            <TextBox Name="SurnameTextBox" Text="{Binding ElementName=ItemList ,Path=SelectedItem.Surname,Mode=OneWay}" HorizontalAlignment="Left"  Margin="70,25,0,0" Width="150" Height="17" VerticalAlignment="Top" Background="#FF2E2D5B" BorderBrush="{x:Null}" Foreground="#FFB5C7DC"/>
+            <TextBox Name="MarkTextBox" Text="{Binding ElementName=ItemList ,Path=SelectedItem.Mark,Mode=OneWay}" HorizontalAlignment="Left"  Margin="70,45,0,0" Width="150" Height="17" VerticalAlignment="Top" Background="#FF2E2D5B" BorderBrush="{x:Null}" Foreground="#FFB5C7DC"/>
         </Grid>
 
         <Button x:Name="CreateButton" HorizontalAlignment="Left" Click="CreateButton_Click" Margin="10,360,0,0" VerticalAlignment="Top" Background="#FF39375B" >

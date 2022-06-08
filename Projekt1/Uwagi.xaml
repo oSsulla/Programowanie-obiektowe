@@ -5,8 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Projekt1"
         mc:Ignorable="d"
-        Title="Uwagi" Height="450" Width="800">
-    <Grid>
-        
+        Title="Uwagi" Height="280" Width="350"
+
+        ResizeMode="NoResize">
+
+    <Grid Background="#FF171535">
+        <Grid Height="35" HorizontalAlignment="Stretch" VerticalAlignment="Top" Background="#FF0F0F2D">
+            <TextBlock Text="Uwagi" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20,0,0,0" FontFamily="Gabriola" FontSize="20"/>
+        </Grid>
+        <Grid>
+            <TextBlock Text="- Uwaga 1" Foreground="#FF7198C6" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,57,0,0" FontFamily="Georgia" Height="43" Width="280"/>
+            <TextBlock Text="- Uwaga 2" Foreground="#FF7198C6" VerticalAlignment="Top" HorizontalAlignment="Center" FontFamily="Georgia" Height="44" Width="280" Margin="0,105,0,0"/>
+            <TextBlock Text="- Uwaga 3" Foreground="#FF7198C6" VerticalAlignment="Top" HorizontalAlignment="Center" FontFamily="Georgia" Height="44" Width="280" Margin="0,154,0,0"/>
+            <TextBlock Text="- Uwaga 4" Foreground="#FF7198C6" VerticalAlignment="Top" HorizontalAlignment="Center" FontFamily="Georgia" Height="44" Width="280" Margin="0,203,0,0"/>
+        </Grid>
     </Grid>
 </Window>
