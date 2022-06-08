@@ -14,49 +14,45 @@ namespace lab_1
             DateTime newDate = dateTime.AddDays(2);
             Console.WriteLine(newDate + " " + dateTime);
             string name = "adam";
-            string name1 = "adam";
             string v = name.Substring(0, 2);
-            Console.WriteLine(name == name1);
+            Console.WriteLine("adam" == name);
             Money money = Money.Of(10m, Currency.PLN);
-            //money * 5 -> *(money, 5)
-            Money result = 5 * money;
+            //money *5->*(money,5)
+            Money result = money * 5;
             Console.WriteLine(result.value);
             Money sum = money + result;
             Console.WriteLine(sum.value);
             Console.WriteLine(sum < money);
             Console.WriteLine(money == Money.Of(10, Currency.PLN));
             Console.WriteLine(money != Money.Of(10, Currency.PLN));
-            long a = 10L;
+            long a = 10l;
             a = 10000000000000000L;
             int b = 5;
             a = b;
             b = (int)a;
-
-            //operatory rzutowania
-            decimal amount = money;
+            // operatory rzutowania
+            //decimal amount = money;
             double cost = (double)money;
             float price = (float)money;
-            Console.WriteLine(amount);
+            //Console.WriteLine(amount);
             Console.WriteLine(cost);
             Console.WriteLine(price);
-
-            //ToString
+            // to string
             Console.WriteLine("ToString");
             Console.WriteLine(money.ToString());
 
             money.Equals(cost);
-            Console.WriteLine("SORT");
-
             Money[] pricies =
             {
-                Money.Of(11, Currency.PLN),
-                Money.Of(12, Currency.PLN),
-                Money.Of(16, Currency.USD),
-                Money.Of(17, Currency.USD),
-                Money.Of(11, Currency.USD),
-                Money.Of(12, Currency.EUR)
-            };
+                Money.Of(11,Currency.PLN),
+                Money.Of(12,Currency.PLN),
+                Money.Of(16,Currency.USD),
+                Money.Of(17,Currency.USD),
+                Money.Of(18,Currency.USD),
+                Money.Of(12,Currency.EUR),
 
+            };
+            Console.WriteLine("Sort");
             Array.Sort(pricies);
             foreach (var m in pricies)
             {
@@ -105,20 +101,17 @@ class Person
                 throw new ArgumentOutOfRangeException("Imię zbyt krótkie");
             }
         }
-    }
 
-    public override string ToString()
-    {
-        return _name;
+
     }
 
     public enum Currency
     {
-        PLN = 1,
-        USD = 2,
-        EUR = 3
+        PLN = 2,
+        USD = 3,
+        EUR = 1
     }
-    public class Money: IEquatable<Money>, IComparable<Money>
+    public class Money : IEquatable<Money>, IComparable<Money>
     {
         private readonly decimal _value;
         private readonly Currency _Currency;
@@ -127,7 +120,6 @@ class Person
             _value = value;
             _Currency = currency;
         }
-
         public decimal value
         {
             get
@@ -146,49 +138,45 @@ class Person
         {
             return value < 0 ? null : new Money(value, currency);
         }
-
         public static Money operator *(Money a, decimal b)
         {
-            return Money.Of(a._value * b, a._Currency);
-        }
 
-        public static Money operator *(decimal b, Money a)
-        {
             return Money.Of(a._value * b, a._Currency);
         }
-        public static Money operator +(Money b, Money a)
+        public static Money operator +(Money a, Money b)
         {
             if (a.Currency != b.Currency)
             {
-                throw new ArgumentException("Different currencies!");
+                throw new ArgumentOutOfRangeException("Difrence currences");
             }
             return Money.Of(a._value * b._value, a._Currency);
         }
-        public static bool operator >(Money b, Money a)
+        public static bool operator >(Money a, Money b)
         {
             if (a.Currency != b.Currency)
             {
-                throw new ArgumentException("Different currencies!");
+                throw new ArgumentOutOfRangeException("Difrence currences");
             }
-            return a.value > b.value;
+            return a._value > b._value;
         }
-        public static bool operator <(Money b, Money a)
+        public static bool operator <(Money a, Money b)
         {
             if (a.Currency != b.Currency)
             {
-                throw new ArgumentException("Different currencies!");
+                throw new ArgumentOutOfRangeException("Differebt currencies");
             }
-            return a.value < b.value;
+            return a._value < b._value;
         }
-        public static bool operator ==(Money b, Money a)
+        public static bool operator ==(Money a, Money b)
         {
-            return a.value == b.value && a.Currency == b.Currency;
+
+            return a._value == b._value && a.Currency == b.Currency;
         }
-        public static bool operator !=(Money b, Money a)
+        public static bool operator !=(Money a, Money b)
         {
+
             return !(a == b);
         }
-
         public static implicit operator decimal(Money money)
         {
             return money.value;
@@ -201,10 +189,10 @@ class Person
         {
             return (float)money.value;
         }
-
         public override string ToString()
         {
-            return $"value:{_value}, Currency{_Currency}";
+            return $"Value:{_value} ,Currency:{_Currency}";
+
         }
 
         public override bool Equals(object obj)
@@ -218,75 +206,80 @@ class Person
         {
             return HashCode.Combine(_value, _Currency);
         }
-
         public bool Equals(Money other)
         {
             return _value == other._value &&
-                   _Currency == other._Currency;
+                _Currency == other._Currency;
         }
 
         public int CompareTo(Money other)
         {
             int result = _Currency.CompareTo(other._Currency);
-            if (result == 0){
-                result - _value.CompareTo(other._value);
-            }else
-            { 
+            if (result == 0)
+            {
+                return -_value.CompareTo(other._value);
+
+            }
+            else
+            {
                 return result;
             }
         }
+    }
 
-        public class Tank
+    public class Tank
+    {
+        public readonly int Capacity;
+        private int _level;
+        public Tank(int capacity)
         {
-            public readonly int Capacity;
-            private int _level;
-            public Tank(int capacity)
+            Capacity = capacity;
+        }
+        public int Level
+        {
+            get { return _level; }
+            set
             {
-                Capacity = capacity;
-            }
-            public int Level
-            {
-                get { return _level; }
-                set
-                {
-                    if (value < 0 || value > Capacity) throw new ArgumentOutOfRangeException();
-                    _level = value;
-                }
-            }
-            public bool Consume(int w)
-            {
-                if (w > _level)
-                {
-                    return false;
-                }
-                Level = _level - w;
-                return true;
-            }
-            public void Refuel(int amount)
-            {
-                if (amount < 0)
-                {
-                    throw new ArgumentException("Argument cant be non positive!");
-                }
-                if (_level + amount > Capacity)
-                {
-                    throw new ArgumentException("Argument is to large!");
-                }
-                _level += amount;
-            }
-            public bool Refuel(Tank sourceTank, int amount)
-            {
-                if (this.Level + amount > Capacity)
-                {
-                    return false;
-                }
-                if (sourceTank.Consume(amount))
-                {
-                    this.Refuel(amount);
-                    return true;
-                }
-                return false;
+                if (value < 0 || value > Capacity) throw new ArgumentOutOfRangeException();
+                _level = value;
             }
         }
+        public bool Consume(int w)
+        {
+            if (w > _level)
+            {
+                return false;
+            }
+            Level = _level - w;
+            return true;
+        }
+        public void Refuel(int amount)
+        {
+            if (amount < 0)
+            {
+                throw new ArgumentException("Argument cant be non positive!");
+            }
+            if (_level + amount > Capacity)
+            {
+                throw new ArgumentException("Argument is to large!");
+            }
+            _level += amount;
+        }
+        public bool Refuel(Tank sourceTank, int amount)
+        {
+            if (this.Level + amount > Capacity)
+            {
+                return false;
+            }
+            if (sourceTank.Consume(amount))
+            {
+                this.Refuel(amount);
+                return true;
+            }
+
+            return false;
+        }
+
     }
+
 }
